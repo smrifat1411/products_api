@@ -1,10 +1,22 @@
+const Product = require("../models/productSchema")
+
 const getAllProducts = async (req, res) => {
-  res.send("I am from all products");
+  // res.send("I am from all products");
+  const allProducts = await Product.find({})
+  res.json({length:allProducts.length,allProducts})
+
 };
 
-const createProduct = async (req, res) => {
+const createProduct = async (req, res,next) => {
   //   res.send("I am from Create Product");
-  res.json(req.body);
+  try {
+    const product =  await Product.create(req.body)
+  res.json({product});
+  } catch (error) {
+    // res.send()
+    next(error)
+  }
+  
 };
 const getSingleProduct = async (req, res) => {
   //   res.send("I am from Single Product");
